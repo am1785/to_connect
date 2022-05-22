@@ -40,6 +40,15 @@ const TodoList = () => {
   // const todoRef = ref(db, "/toconnect/" + oath.id);
   // update(todoRef, { done: !oath.done });
   // };
+  const upvoteOath = (oath: Oath) => {
+    const oathRef = ref(db, "toconnect/" + oath.id);
+    update(oathRef, {score: oath.score + 1 });
+  }
+
+  const downvoteOath = (oath: Oath) => {
+    const oathRef = ref(db, "toconnect/" + oath.id);
+    update(oathRef, {score: oath.score - 1 });
+  }
 
   function DeleteDialog ({id, title, score, creator}: Oath) {
     // dialoague component that warns the user before deleting an oath
@@ -101,11 +110,11 @@ const TodoList = () => {
           justifyContent="center"
           alignItems="center">
             <span>{oath.title}</span>
-            <IconButton color="primary">
+            <IconButton color="primary" onClick={()=>{upvoteOath(oath)}}>
               <ArrowCircleUpIcon />
             </IconButton>
             <span>{oath.score}</span>
-            <IconButton  color="secondary">
+            <IconButton  color="secondary" onClick={()=>{downvoteOath(oath)}}>
               <ArrowCircleDownIcon />
             </IconButton>
             <DeleteDialog id={oath.id} title={oath.title} score={oath.score} creator={oath.creator} />
